@@ -32,7 +32,7 @@ def add(request):
             messages.error(request,error, extra_tags=tag)
         return redirect('/')
     
-    User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'],email=request.POST['email'], password = hashpw, age = request.POST['date'], birthday = request.POST['date'], gender = request.POST['gender'], created_at = datetime.datetime.now)
+    User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'],email=request.POST['email'], password = hashpw, age = request.POST['date'], gender = request.POST['gender'], created_at = datetime.datetime.now)
     
     user = User.objects.filter(email = request.POST['email'])[0]
     request.session['user'] = user.id 

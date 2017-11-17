@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 import re
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timedelta
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 NAME_REGEX = re.compile("^[a-zA-Z._-]+$")
@@ -12,8 +12,6 @@ PASSWORD_REGEX = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
 #    ('M', 'Male'),
 #    ('F', 'Female')
 # )
-
-# Create your models here.
 
 
 class UserManager(models.Manager):
@@ -48,20 +46,18 @@ class UserManager(models.Manager):
                     errors['password'] = 'Please input valid email.'
                 if postData['password'] != postData['cpassword']:
                     errors['password'] = 'Password does not match.'
+        
         if postData['date'] !='':
             date = datetime.strptime(postData['date'], "%Y-%m-%d")
             now = datetime.now()
             if date > now:
                 errors['date'] = 'Birthday date can not be after today.'
+            else:
+                if date - now < timedelta(567648000):
+                    errors['date'] = 'Can not register due to under age.'
 
         else:
             errors['date'] = 'Birthday date is invalid.'
-
-        if postData['age'] == '':
-            errors['age'] = 'Age can not be blank.'
-        else:
-            if int(postData['age']) < 18:
-                errors['age'] = 'Can not register due to under age.'
 
         return errors
         # return dictionary
@@ -84,7 +80,6 @@ class User(models.Model):
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     birthday = models.DateTimeField(auto_now_add=False)
-    age = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     gender = models.CharField(max_length=128)
     objects = UserManager()
