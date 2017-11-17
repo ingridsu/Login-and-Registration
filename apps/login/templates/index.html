@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %} {% endif %}
+
+            <h1>Registration</h1>
+            <div class="form-group">
+                <form action='/add' method="POST">
+                    {% csrf_token %}
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                    <label for="cpassword">Confirm password</label>
+                    <input type="password" name="cpassword" id="cpassword" class="form-control">
+                    <label for="date">Birthday</label>
+                    <input type="date" name="date" id="date" class="form-control">
+                    <label for="age">Age</label>
+                    <input type="age" name="age" id="age" class="form-control">
+                    <label for="gender">Gender</label>
+                    <select class="form-control" name="gender" id="gender">
+                        <option value ="female">F</option>
+                        <option value ="male">M</option>
+                    </select>
+                    <br>
+                    <button type="submit" name="register" id="register" class="btn btn-primary" role="button">Register</button>
+                </form>
+            </div>
+
+            <h1>Login</h1>
+            <div class="form-group">
+                <form action='/login' method="POST">
+                    {% csrf_token %}
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" name="email" id="email">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password" id="password">
+                    <br>
+                    <button type="submit" name="register" id="register" class="btn btn-primary" role="button">Login</button>
+                </form>
+            </div>
+    </div>
+
+</body>
+
+</html>
